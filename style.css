@@ -1,62 +1,48 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    scroll-behavior: smooth; /* Native smooth scrolling */
-  }
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
 
-  #window{
-      position: fixed;
-      height: 266px;
-      width: 400px;
-      top: -12%;
-      left: 2%;
-      background-color: transparent;
-      border:solid ;
-      border-width: 300px 0px;
-      border-color: black;
-      z-index: 12;
-  }
+.scroll-container {
+  overflow: hidden;
+}
 
-  .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 204vh; /* Ensure enough scrolling space */
-  }
+.content {
+  width: 50%;
+  padding: 50px;
+  padding-top: 250px;
+  height: 135vh; /* Enough space for scrolling */
+  display: flex;
+  flex-direction: column;
+}
+.text:nth-of-type(1) {
+  font-size: 0.4rem;
+}
+.text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 55px 0;
+  opacity: 0; /* Start hidden */
+  transform: scale(0.5); /* Start smaller */
+  transform-origin: left center;
+}
 
-  .text-container {
-    width: 50%; /* Occupy left half of the screen */
-    padding: 50px;
-    z-index: 10; /* Ensure text appears above image */
-  }
+.image-container {
+  width: 50%;
+  position: fixed;
+  top: 8% !important;
+  left: 52% !important;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
 
-  .text:nth-of-type(1){
-      font-size: 1rem;
-  }
-  .text {
-    font-size: 2.5rem;
-    font-weight: bold;
-    opacity: 0; /* Start hidden */
-    transform: scale(0.5); /* Start smaller */
-    color: white;
-    margin: 35px 0; /* Add spacing between elements */
-    transform-origin: left center;
-  }
-
-  .image-container {
-    width: 50%; /* Occupy right half of the screen */
-    position: fixed; /* Pin the image */
-    top: 10% !important; /* Center it vertically */
-    left: 50% !important; /* Add some right margin */
-    pointer-events: none; /* Prevent interaction with the image */
-    z-index: 1; /* Set image below text */
-  }
-
-  .pinned-image {
-    width: 90%; /* Adjust image size */
-    height: 80vh;
-  }
+.pinned-image {
+  width: 90%;
+  height: auto;
+  position: absolute;
+}

@@ -1,37 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pinned Image with Scrolling Text</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="window"></div>
-    <div class="container">
-    <!-- Text Section -->
-        <div class="text-container">
-            <div class="text">FIND OUT MORE ABOUT US</div>
-            <div class="text">What <br>We do</div>
-            <div class="text">UI/UX <br>Design</div>
-            <div class="text">Website <br>Creation</div>
-            <div class="text">Campaign <br>Management</div>
-            <div class="text">Web <br>Analysis</div>
-            <div class="text">Branding <br>Strategy</div>
-        </div>
-
-    <!-- Image Section -->
-    <div class="image-container">
-      <img 
-        src="./photo-1434030216411-0b793f4b4173.avif" 
-        alt="Pinned Image" 
-        class="pinned-image"
-      />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Locomotive Scroll + GSAP</title>
+    <!-- Locomotive Scroll CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/locomotive-scroll/dist/locomotive-scroll.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div data-scroll-container class="scroll-container">
+      <div class="content">
+        <div class="text" data-scroll>FIND OUT MORE ABOUT US</div>
+        <div class="text" data-scroll>What <br />We do</div>
+        <div class="text" data-scroll>UI/UX <br />Design</div>
+        <div class="text" data-scroll>Website <br />Creation</div>
+        <div class="text" data-scroll>Campaign <br />Management</div>
+        <div class="text" data-scroll>Web <br />Analysis</div>
+        <div class="text" data-scroll>Branding <br />Strategy</div>
+      </div>
+      <div
+        class="image-container"
+        data-scroll
+        data-scroll-sticky
+        data-scroll-target=".scroll-container"
+      >
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+        <img
+          src="./photo-1434030216411-0b793f4b4173.avif"
+          alt="Pinned Image"
+          class="pinned-image"
+        />
+      </div>
     </div>
-  </div>
-  <script src="script.js"></script>
-</body>
+
+    <!-- Locomotive Scroll -->
+    <script src="https://unpkg.com/locomotive-scroll/dist/locomotive-scroll.min.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

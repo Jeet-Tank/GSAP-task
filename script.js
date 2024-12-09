@@ -1,72 +1,145 @@
- // Register ScrollTrigger plugin
- gsap.registerPlugin(ScrollTrigger,ScrollToPlugin);
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
- // Select all text elements
- const texts = document.querySelectorAll(".text");
+// Initialize Locomotive Scroll
+const locoScroll = new LocomotiveScroll({
+  el: document.querySelector(".scroll-container"),
+  smooth: true,
+  lerp: 0.01,
+});
 
- // Loop through each text element
- texts.forEach((text, index) => {
-   // Focus Animation
-   gsap.fromTo(
-     text,
-     {
-       opacity: 0.7,
-       scale: 0.5,
-       ease: "power2.out", // Smooth focus animation
-       y: 10, // Start slightly below
-     },
-     {
-       opacity: 1,
-       scale: 1.7,
-       y: 0,
-       duration: 1,
-       ease: "power2.out", // Smooth focus animation
-       scrollTrigger: {
-         trigger: text, // Trigger animation when this element enters the viewport
-         start: "top 55%", // Animation starts when the top of the element is 85% of the viewport height
-         end: "top 33%", // Animation ends when the top of the element is 55% of the viewport height
-         scrub: 1, // Smooth animation tied to scroll position
-       },
-     }
-   );
-     // Unfocus Animation
-   gsap.fromTo(
-     text,
-     {
-       opacity: 0.7,
-       scale: 1.4,
-       ease: "power2.out", // Smooth unfocus animation
-       y: 0, // Start from its current position
-     },
-     {
-       opacity: 0,
-       scale: 0,
-       y: -10, // Move slightly upward
-       duration: 1,
-       ease: "power2.out", // Smooth unfocus animation
-       scrollTrigger: {
-         trigger: text, // Trigger animation when this element leaves the viewport
-         start: "top 33%", // Animation starts when the top of the element is 55% of the viewport height
-         end: "top 0%", // Animation ends when the top of the element is 10% of the viewport height
-         scrub: 1, // Smooth animation tied to scroll position
-       },
-     }
-   );
- });
+// Update ScrollTrigger with Locomotive Scroll
+locoScroll.on("scroll", ScrollTrigger.update);
 
- // Pin the image during scrolling
- ScrollTrigger.create({
-   trigger: ".container", // Trigger when the container starts scrolling
-   start: "top 20%", // Pin image when it reaches the top of the viewport
-   end: "bottom top", // Unpin image when the container's bottom reaches the top of the viewport
-   pin: ".image-container", // Pin the image container
-   pinSpacing: false, // Prevent extra space when unpinning
-   scrub: false, // No scrub for pinning
- });
+ScrollTrigger.scrollerProxy(".scroll-container", {
+  scrollTop(value) {
+    return arguments.length
+      ? locoScroll.scrollTo(value, 0, 0)
+      : locoScroll.scroll.instance.scroll.y;
+  },
+  getBoundingClientRect() {
+    return {
+      top: 0,
+      left: 0,
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  },
+  pinType: document.querySelector(".scroll-container").style.transform
+    ? "transform"
+    : "fixed",
+});
 
- gsap.to(window, {
-   duration: 1,
-   scrollTo: "top", // Scroll to top with custom speed
-   ease: "power2.out", // Ease function for smooth scroll
-   delay: 0.5, // Optional delay before scroll
- });
+// Pin the image during scrolling
+ScrollTrigger.create({
+  trigger: ".scroll-container",
+  scroller: ".scroll-container",
+  start: "top top",
+  end: "bottom bottom",
+  pin: ".image-container",
+});
+
+// Animate text elements
+const texts = document.querySelectorAll(".text");
+const images = document.querySelectorAll(".pinned-image");
+var tl1 = gsap.timeline();
+
+images.forEach((img, index) => {
+  img.style.zIndex = 8 - index;
+  img.style.opacity = 0;
+});
+
+function instance(incoming, outgoing) {
+  tl1.fromTo(
+    texts[incoming],
+    {
+      opacity: 0,
+      scale: 0.5,
+      y: 10,
+    },
+    {
+      opacity: 1,
+      scale: 2,
+      y: 0,
+      scrollTrigger: {
+        trigger: texts[incoming],
+        scroller: ".scroll-container", // Use Locomotive Scroll's scroller
+        start: "top 45%",
+        end: "top 25%",
+        scrub: 1,
+        action: "play reverse play reverse",
+      },
+    }
+  );
+  tl1.fromTo(
+    images[outgoing],
+    {
+      y: 100,
+      opacity: 0,
+    },
+    {
+      y: -50,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: texts[incoming],
+        scroller: ".scroll-container", // Use Locomotive Scroll's scroller
+        start: "top 45%",
+        end: "top 20%",
+        scrub: 3,
+        action: "play reverse play reverse",
+      },
+    }
+  );
+  tl1.fromTo(
+    images[outgoing],
+    {
+      opacity: 1,
+    },
+    {
+      y: -350,
+      opacity: 0,
+      scrollTrigger: {
+        trigger: texts[incoming],
+        scroller: ".scroll-container", // Use Locomotive Scroll's scroller
+        start: "top 18%",
+        end: "top 5%",
+        scrub: 3,
+        action: "play reverse play reverse",
+      },
+    }
+  );
+  // Unfocus animation
+  tl1.fromTo(
+    texts[outgoing],
+    {
+      opacity: 1,
+      scale: 2,
+      y: 0,
+    },
+    {
+      opacity: 0,
+      scale: 0.5,
+      y: -10,
+      duration: 1,
+      scrollTrigger: {
+        trigger: texts[incoming],
+        scroller: ".scroll-container", // Use Locomotive Scroll's scroller
+        start: "top 45%",
+        end: "top 10%",
+        scrub: 1,
+        action: "play reverse play reverse",
+      },
+    }
+  );
+}
+
+instance(1, 0);
+instance(2, 1);
+instance(3, 2);
+instance(4, 3);
+instance(5, 4);
+instance(6, 5);
+
+// Refresh ScrollTrigger and Locomotive Scroll
+ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+ScrollTrigger.refresh();
